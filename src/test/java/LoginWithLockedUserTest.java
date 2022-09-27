@@ -9,7 +9,7 @@ public class LoginWithLockedUserTest {
     String rootPage = "/";
 
     @BeforeAll
-    public static void setup() {
+     static void setup() {
         Configuration.baseUrl = "https://www.saucedemo.com";
         page.open();
     }

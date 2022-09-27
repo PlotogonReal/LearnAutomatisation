@@ -9,8 +9,7 @@ public class LoginWithCorrectCredentials {
     String inventoryPage = "/inventory.html";
 
     @BeforeAll
-    public static void setup() {
- //       Configuration.baseUrl = "https://www.saucedemo.com/inventory.html";
+    static void setup() {
         Configuration.baseUrl = "https://www.saucedemo.com";
         page.open();
     }

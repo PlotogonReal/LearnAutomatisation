@@ -10,7 +10,7 @@ import static com.codeborne.selenide.WebDriverConditions.url;
 public class SaucedemoPage {
 
     public  SaucedemoPage open() {
-        Selenide.open("https://www.saucedemo.com");
+        Selenide.open(baseUrl);
         return this;
     }
     public SaucedemoPage login(String user, String password){
