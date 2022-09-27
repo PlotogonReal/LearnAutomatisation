@@ -1,26 +1,25 @@
-import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Configuration;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import static com.codeborne.selenide.Condition.*;
-import static com.codeborne.selenide.Selenide.*;
-import static com.codeborne.selenide.WebDriverConditions.url;
 
 public class LoginWithLockedUserTest {
     static SaucedemoPage page = new SaucedemoPage();
+    String userLogin = "locked_out_user";
+    String userPass = "secret_sauce";
+    String rootPage = "/";
 
     @BeforeAll
     public static void setup() {
- //       Configuration.holdBrowserOpen = true;
+        Configuration.baseUrl = "https://www.saucedemo.com";
         page.open();
     }
+
     @Test
     void login() {
-        page.login("locked_out_user", "secret_sauce");
-        webdriver().shouldHave(url("https://www.saucedemo.com/"));
-        $("form div:nth-child(1) svg").should(exist);
-        $("form div:nth-child(2) svg").should(exist);
-        $x("//div[@class='error-message-container error']")
-                .shouldHave(exactTextCaseSensitive("Epic sadface: Sorry, this user has been locked out."));
+        page.login(userLogin, userPass);
+        page.checkTheCurrentPage(rootPage);
+        page.checkWarningUserLogin();
+        page.checkWarningUserPass();
+        page.checkWarningMassage();
     }
 }
