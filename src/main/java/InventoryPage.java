@@ -2,8 +2,10 @@ import com.codeborne.selenide.ElementsCollection;
 import org.openqa.selenium.By;
 
 import static com.codeborne.selenide.CollectionCondition.size;
+import static com.codeborne.selenide.CollectionCondition.texts;
 import static com.codeborne.selenide.Condition.*;
-import static com.codeborne.selenide.Selenide.$$x;
+import static com.codeborne.selenide.Selectors.by;
+import static com.codeborne.selenide.Selenide.*;
 
 public class InventoryPage {
     ElementsCollection results = $$x("//div[@class='inventory_item']");
@@ -59,5 +61,57 @@ public class InventoryPage {
         results.get(5).$(By.cssSelector(".inventory_item_price")).shouldHave(exactText("$15.99"));
 //        results.get(5).$(By.cssSelector("#add-to-cart-test.allthethings()-t-shirt-(red)")).should(exist);
         results.get(5).$("button").shouldHave(text("Add to cart"));
+    }
+    public void sortingAtoZ(){
+        $(by("data-test", "product_sort_container"))
+                .selectOption("Name (A to Z)");
+    }
+    public void sortingZtoA(){
+        $(by("data-test", "product_sort_container"))
+                .selectOption("Name (Z to A)");
+    }
+    public void sortingByPriceMinToMax(){
+        $(by("data-test", "product_sort_container"))
+                .selectOption("Price (low to high)");
+    }
+    public void sortingByPriceMaxToMin(){
+        $(by("data-test", "product_sort_container"))
+                .selectOption("Price (high to low)");
+    }
+    public void checkSortingAtoZ(){
+        $$(By.xpath("//div[@class='inventory_item_name']"))
+                .shouldHave(texts("Sauce Labs Backpack",
+                        "Sauce Labs Bike Light",
+                        "Sauce Labs Bolt T-Shirt",
+                        "Sauce Labs Fleece Jacket",
+                        "Sauce Labs Onesie",
+                        "Test.allTheThings() T-Shirt (Red)"));
+    }
+    public void checkSortingZtoA(){
+        $$(By.xpath("//div[@class='inventory_item_name']"))
+                .shouldHave(texts("Test.allTheThings() T-Shirt (Red)",
+                        "Sauce Labs Onesie",
+                        "Sauce Labs Fleece Jacket",
+                        "Sauce Labs Bolt T-Shirt",
+                        "Sauce Labs Bike Light",
+                        "Sauce Labs Backpack"));
+    }
+    public void checkSortingByPriceMinToMax(){
+        $$(By.xpath("//div[@class='inventory_item_price']"))
+                .shouldHave(texts("$7.99",
+                        "$9.99",
+                        "$15.99",
+                        "$15.99",
+                        "$29.99",
+                        "$49.99"));
+    }
+    public void checkSortingByPriceMaxToMin(){
+        $$(By.xpath("//div[@class='inventory_item_price']"))
+                .shouldHave(texts("$49.99",
+                        "$29.99",
+                        "$15.99",
+                        "$15.99",
+                        "$9.99",
+                        "$7.99"));
     }
 }
