@@ -1,4 +1,5 @@
 import com.codeborne.selenide.ElementsCollection;
+import org.junit.jupiter.params.provider.Arguments;
 import org.openqa.selenium.By;
 
 import static com.codeborne.selenide.CollectionCondition.size;
@@ -114,4 +115,14 @@ public class InventoryPage {
                         "$9.99",
                         "$7.99"));
     }
+
+    public void sorting(String dir){
+        $(by("data-test", "product_sort_container"))
+                .selectOption(dir);
+    }
+
+    //public void checkSorting(Arguments arg){
+    //    $$(By.xpath("//div[@class='inventory_item_price']"))
+    //            .shouldHave(texts(arg));
+    //}
 }
