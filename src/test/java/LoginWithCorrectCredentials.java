@@ -20,6 +20,6 @@ public class LoginWithCorrectCredentials {
         page.login(user, userPass);
         page.checkTheCurrentPage(inventoryPage);
         page.clickBurgerMenu();
-        page.clickLogout();
+        //  page.clickLogout();
     }
 }
