@@ -16,10 +16,6 @@ public class SortingTest {
     static String userLogin = "standard_user";
     static String userPass = "secret_sauce";
     private Object[] objects;
-    private Object object;
-    private Object[] ;
-    . ;
-    private Object[] ;
 
     enum SortType {
         AZ("Name (A to Z)"),
