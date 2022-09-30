@@ -7,7 +7,7 @@ public class ProductsPageTest {
     static SaucedemoPage loginPage = new SaucedemoPage();
     static String userLogin = "standard_user";
     static String userPass = "secret_sauce";
-    static int numberOfCardsOnThePage = 6;
+    static int amountOfCardsOnThePage = 6;
 
     @BeforeAll
     static void setup() {
@@ -17,7 +17,7 @@ public class ProductsPageTest {
 
     @Test
     void test() {
-        page.countCards(numberOfCardsOnThePage);
+        page.countCards(amountOfCardsOnThePage);
         page.checkCard1();
         page.checkCard2();
         page.checkCard3();

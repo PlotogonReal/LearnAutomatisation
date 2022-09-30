@@ -9,15 +9,25 @@ import static com.codeborne.selenide.Selenide.*;
 import static com.codeborne.selenide.WebDriverConditions.url;
 
 public class SaucedemoEndToEndTest {
+    static InventoryPage page = new InventoryPage();
+    static SaucedemoPage loginPage = new SaucedemoPage();
+    static String userLogin = "standard_user";
+    static String userPass = "secret_sauce";
+    static String headOfCard1 = "Sauce Labs Backpack";
+    static String headOfCard2 = "Sauce Labs Bolt T-Shirt";
     @BeforeAll
     static void setup() {
         Configuration.holdBrowserOpen = true;
-        new SaucedemoPage().open().login("standard_user", "secret_sauce");
+        Configuration.baseUrl = "https://www.saucedemo.com";
+        loginPage.open().login(userLogin, userPass);
     }
 
     @Test
     void test() {
-        $x("//div[text()='Sauce Labs Backpack']/ancestor::div[@class='inventory_item_description']//button")
+        page.addToCartItem(headOfCard1);
+        page.clickOnHeaderCard(headOfCard2);
+        page.checkPageOfItem(headOfCard2);
+ /*       $x("//div[text()='Sauce Labs Backpack']/ancestor::div[@class='inventory_item_description']//button")
                 .click();//кликнули по кнопке "Add to cart" товара 'Sauce Labs Backpack'
         $x("//div[text()='Sauce Labs Bolt T-Shirt']").click(); //кликнули по заголовку товара "Sauce Labs Bolt T-Shirt"
         webdriver().shouldHave(url("https://www.saucedemo.com/inventory-item.html?id=1"));//убедились, что находимся внутри карточки товара
@@ -46,6 +56,6 @@ public class SaucedemoEndToEndTest {
                 .click();//удалили из корзины 'Sauce Labs Fleece Jacket'
         $x("//div[text()='Sauce Labs Backpack']").should(exist);//на месте ли 'Sauce Labs Backpack'
         $x("//div[text()='Sauce Labs Onesie']").should(exist);//на месте ли 'Sauce Labs Onesie'
-        $("#checkout").click();//нажали в корзине "checkout"
+        $("#checkout").click();//нажали в корзине "checkout"*/
     }
 }

@@ -4,14 +4,15 @@ import org.openqa.selenium.By;
 import static com.codeborne.selenide.CollectionCondition.size;
 import static com.codeborne.selenide.CollectionCondition.texts;
 import static com.codeborne.selenide.Condition.*;
-import static com.codeborne.selenide.Selectors.by;
+import static com.codeborne.selenide.Selectors.*;
 import static com.codeborne.selenide.Selenide.*;
+import static com.codeborne.selenide.WebDriverConditions.url;
 
 public class InventoryPage {
     ElementsCollection results = $$x("//div[@class='inventory_item']");
 
-    public void countCards(int numberOfCardsOnThePage) {
-        results.shouldBe(size(numberOfCardsOnThePage));
+    public void countCards(int amountOfCardsOnThePage) {
+        results.shouldBe(size(amountOfCardsOnThePage));
     }
 
     public void checkCard1() {
@@ -62,23 +63,28 @@ public class InventoryPage {
 //        results.get(5).$(By.cssSelector("#add-to-cart-test.allthethings()-t-shirt-(red)")).should(exist);
         results.get(5).$("button").shouldHave(text("Add to cart"));
     }
-    public void sortingAtoZ(){
+
+    public void sortingAtoZ() {
         $(by("data-test", "product_sort_container"))
                 .selectOption("Name (A to Z)");
     }
-    public void sortingZtoA(){
+
+    public void sortingZtoA() {
         $(by("data-test", "product_sort_container"))
                 .selectOption("Name (Z to A)");
     }
-    public void sortingByPriceMinToMax(){
+
+    public void sortingByPriceMinToMax() {
         $(by("data-test", "product_sort_container"))
                 .selectOption("Price (low to high)");
     }
-    public void sortingByPriceMaxToMin(){
+
+    public void sortingByPriceMaxToMin() {
         $(by("data-test", "product_sort_container"))
                 .selectOption("Price (high to low)");
     }
-    public void checkSortingAtoZ(){
+
+    public void checkSortingAtoZ() {
         $$(By.xpath("//div[@class='inventory_item_name']"))
                 .shouldHave(texts("Sauce Labs Backpack",
                         "Sauce Labs Bike Light",
@@ -87,7 +93,8 @@ public class InventoryPage {
                         "Sauce Labs Onesie",
                         "Test.allTheThings() T-Shirt (Red)"));
     }
-    public void checkSortingZtoA(){
+
+    public void checkSortingZtoA() {
         $$(By.xpath("//div[@class='inventory_item_name']"))
                 .shouldHave(texts("Test.allTheThings() T-Shirt (Red)",
                         "Sauce Labs Onesie",
@@ -96,7 +103,8 @@ public class InventoryPage {
                         "Sauce Labs Bike Light",
                         "Sauce Labs Backpack"));
     }
-    public void checkSortingByPriceMinToMax(){
+
+    public void checkSortingByPriceMinToMax() {
         $$(By.xpath("//div[@class='inventory_item_price']"))
                 .shouldHave(texts("$7.99",
                         "$9.99",
@@ -105,7 +113,8 @@ public class InventoryPage {
                         "$29.99",
                         "$49.99"));
     }
-    public void checkSortingByPriceMaxToMin(){
+
+    public void checkSortingByPriceMaxToMin() {
         $$(By.xpath("//div[@class='inventory_item_price']"))
                 .shouldHave(texts("$49.99",
                         "$29.99",
@@ -113,5 +122,69 @@ public class InventoryPage {
                         "$15.99",
                         "$9.99",
                         "$7.99"));
+    }
+
+    int numberCard;
+
+    public void setNumberOfCard(int number) {
+        numberCard = number - 1;
+    }
+
+    public void pushTheButton() {
+        //       String cardHeader = results.get(numberCard).find(By.className("inventory_item_name")).getText();
+        results.get(numberCard).$(byTagName("button")).click();
+    }
+
+    public void checkLabelRemovelOnTheButton() {
+        results.get(numberCard).$(byTagName("button")).shouldHave(text("Remove"));
+    }
+
+    public void checkLabelAddToCardlOnTheButton() {
+        results.get(numberCard).$(byTagName("button")).shouldHave(text("Add to cart"));
+    }
+
+    public void checkEmptyCart() {
+        $(byClassName("shopping_cart_link")).should(empty);
+    }
+
+    public void checkOneOnCart() {
+        $(byClassName("shopping_cart_link")).shouldHave(text("1"));
+    }
+
+    public void openCart() {
+        $(byClassName("shopping_cart_link")).click();
+        webdriver().shouldHave(url("https://www.saucedemo.com/cart.html"));
+    }
+
+    String cardHeader;
+
+    public String rememberHeaderOfCard() {
+        cardHeader = results.get(numberCard).find(By.className("inventory_item_name")).getText();
+        return cardHeader;
+    }
+
+    public void checkItemInCart() {
+        $(byClassName("inventory_item_name")).shouldHave(exactText(cardHeader));
+    }
+
+    public void clickRemoveInCart() {
+        $(byText("Remove")).click();
+    }
+
+    public void clickContinueShopping() {
+        $(byName("continue-shopping")).click();
+    }
+
+    public void addToCartItem(String headOfCard) {
+        $x("//div[text()='" + headOfCard + "']/ancestor::div[@class='inventory_item_description']//button")
+                .click();
+    }
+
+    public void clickOnHeaderCard(String headOfCard) {
+        $x("//div[text()='" + headOfCard + "']").click();
+    }
+
+    public void checkPageOfItem(String headOfCard) {
+        $x("//div[@class='inventory_details_name large_size']").shouldHave(text(headOfCard));
     }
 }
