@@ -20,7 +20,7 @@ public class ShoppingCartTest1 {
         page.checkEmptyCart();
         page.checkLabelAddToCardlOnTheButton();
         page.pushTheButton();
-        page.checkLabelRemovelOnTheButton();
+        page.checkLabelRemoveOnTheButton();
         page.checkOneOnCart();
         page.pushTheButton();
         page.checkLabelAddToCardlOnTheButton();

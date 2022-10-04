@@ -131,11 +131,10 @@ public class InventoryPage {
     }
 
     public void pushTheButton() {
-        //       String cardHeader = results.get(numberCard).find(By.className("inventory_item_name")).getText();
         results.get(numberCard).$(byTagName("button")).click();
     }
 
-    public void checkLabelRemovelOnTheButton() {
+    public void checkLabelRemoveOnTheButton() {
         results.get(numberCard).$(byTagName("button")).shouldHave(text("Remove"));
     }
 
@@ -175,7 +174,7 @@ public class InventoryPage {
         $(byName("continue-shopping")).click();
     }
 
-    public void addToCartItem(String headOfCard) {
+    public void pushTheButtonOnItem(String headOfCard) {
         $x("//div[text()='" + headOfCard + "']/ancestor::div[@class='inventory_item_description']//button")
                 .click();
     }
@@ -186,5 +185,44 @@ public class InventoryPage {
 
     public void checkPageOfItem(String headOfCard) {
         $x("//div[@class='inventory_details_name large_size']").shouldHave(text(headOfCard));
+    }
+
+    public void pushTheButtonInsideItem() {
+        $(byClassName("inventory_details_container")).$(byTagName("button")).click();
+    }
+
+    public void pushTheButtonBackToProducts() {
+        $(byName("back-to-products")).click();
+    }
+
+    public void checkQuantityItemInCart(String headOfCard) {
+        $x("//div[text()='" + headOfCard + "']/ancestor::div[@class='cart_item']/div[@class='cart_quantity']")
+                .shouldHave(text("1"));
+    }
+
+    public void checkPriceItemInCart(String headOfCard, String priceItem) {
+        $x("//div[text()='" + headOfCard + "']/ancestor::div[@class='cart_item']//div[@class='inventory_item_price']")
+                .shouldHave(text(priceItem));
+    }
+
+    public void removeItemFromCart(String headOfCard) {
+        $x("//div[text()='" + headOfCard + "']/ancestor::div[@class='cart_item']//button").click();
+    }
+    public void checkItemInTheCart(String headOfCard){
+        $x("//div[text()='" + headOfCard + "']").should(exist);
+    }
+    public void clickCheckOut(){
+        webdriver().shouldHave(url("https://www.saucedemo.com/cart.html"));
+        $("#checkout").click();
+    }
+    public void fillCheckoutForm(){
+        webdriver().shouldHave(url("https://www.saucedemo.com/checkout-step-one.html"));
+        $(byId("first-name")).setValue("Ivan");
+        $(byId("last-name")).setValue("Ivanov");
+        $(byId("postal-code")).setValue("123456");
+        $(byId("continue")).click();
+    }
+    public void checkInventoryPage(){
+        webdriver().shouldHave(url("https://www.saucedemo.com/inventory.html"));
     }
 }

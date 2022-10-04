@@ -2,19 +2,21 @@ import com.codeborne.selenide.Configuration;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import static com.codeborne.selenide.Condition.exist;
-import static com.codeborne.selenide.Condition.text;
-import static com.codeborne.selenide.Selectors.byClassName;
-import static com.codeborne.selenide.Selenide.*;
-import static com.codeborne.selenide.WebDriverConditions.url;
-
 public class SaucedemoEndToEndTest {
     static InventoryPage page = new InventoryPage();
     static SaucedemoPage loginPage = new SaucedemoPage();
+    static CheckoutPage checkoutPage = new CheckoutPage();
     static String userLogin = "standard_user";
     static String userPass = "secret_sauce";
     static String headOfCard1 = "Sauce Labs Backpack";
-    static String headOfCard2 = "Sauce Labs Bolt T-Shirt";
+//    static String headOfCard2 = "Sauce Labs Bike Light";
+    static String headOfCard3 = "Sauce Labs Bolt T-Shirt";
+    static String headOfCard4 = "Sauce Labs Fleece Jacket";
+    static String headOfCard5 = "Sauce Labs Onesie";
+    static String priceOfItem1 = "$29.99";
+    static String priceOfItem4 = "$49.99";
+    static String priceOfItem5 = "$7.99";
+
     @BeforeAll
     static void setup() {
         Configuration.holdBrowserOpen = true;
@@ -24,38 +26,35 @@ public class SaucedemoEndToEndTest {
 
     @Test
     void test() {
-        page.addToCartItem(headOfCard1);
-        page.clickOnHeaderCard(headOfCard2);
-        page.checkPageOfItem(headOfCard2);
- /*       $x("//div[text()='Sauce Labs Backpack']/ancestor::div[@class='inventory_item_description']//button")
-                .click();//кликнули по кнопке "Add to cart" товара 'Sauce Labs Backpack'
-        $x("//div[text()='Sauce Labs Bolt T-Shirt']").click(); //кликнули по заголовку товара "Sauce Labs Bolt T-Shirt"
-        webdriver().shouldHave(url("https://www.saucedemo.com/inventory-item.html?id=1"));//убедились, что находимся внутри карточки товара
-        $x("//button[text()='Add to cart']").click();//нажали "Add to cart"
-        $x("//button[text()='Back to products']").click();//вернулись на страницу с карточками
-        $x("//div[text()='Sauce Labs Fleece Jacket']/ancestor::div[@class='inventory_item_description']//button")
-                .click();//нажали "Add to cart" на карточке 'Sauce Labs Fleece Jacket'
-        $x("//div[text()='Sauce Labs Onesie']/ancestor::div[@class='inventory_item_description']//button")
-                .click();//нажали "Add to cart" на карточке 'Sauce Labs Onesie'
-        $x("//div[text()='Sauce Labs Bolt T-Shirt']/ancestor::div[@class='inventory_item_description']//button")
-                .click();//нажали "Add to cart" на карточке 'Sauce Labs Bolt T-Shirt'
-        $(byClassName("shopping_cart_link")).click();//перешли в корзину
-        $x("//div[text()='Sauce Labs Backpack']/ancestor::div[@class='cart_item']/div[@class='cart_quantity']")
-                .shouldHave(text("1"));//убедились, что у 'Sauce Labs Backpack' количество - 1
-        $x("//div[text()='Sauce Labs Backpack']/ancestor::div[@class='cart_item']//div[@class='inventory_item_price']")
-                .shouldHave(text("$29.99"));//убедились, что у 'Sauce Labs Backpack' цена "$29.99"
-        $x("//div[text()='Sauce Labs Onesie']/ancestor::div[@class='cart_item']/div[@class='cart_quantity']")
-                .shouldHave(text("1"));//убедились, что у 'Sauce Labs Onesie' количество - 1
-        $x("//div[text()='Sauce Labs Onesie']/ancestor::div[@class='cart_item']//div[@class='inventory_item_price']")
-                .shouldHave(text("$7.99"));//убедились, что у 'Sauce Labs Onesie' цена - "$7.99"
-        $x("//div[text()='Sauce Labs Fleece Jacket']/ancestor::div[@class='cart_item']/div[@class='cart_quantity']")
-                .shouldHave(text("1"));//убедились, что у 'Sauce Labs Fleece Jacket' количество - 1
-        $x("//div[text()='Sauce Labs Fleece Jacket']/ancestor::div[@class='cart_item']//div[@class='inventory_item_price']")
-                .shouldHave(text("$49.99"));//убедились, что у 'Sauce Labs Fleece Jacket' цена - "$49.99"
-        $x("//div[text()='Sauce Labs Fleece Jacket']/ancestor::div[@class='cart_item']//button")
-                .click();//удалили из корзины 'Sauce Labs Fleece Jacket'
-        $x("//div[text()='Sauce Labs Backpack']").should(exist);//на месте ли 'Sauce Labs Backpack'
-        $x("//div[text()='Sauce Labs Onesie']").should(exist);//на месте ли 'Sauce Labs Onesie'
-        $("#checkout").click();//нажали в корзине "checkout"*/
+        page.pushTheButtonOnItem(headOfCard1);
+        page.clickOnHeaderCard(headOfCard3);
+        page.checkPageOfItem(headOfCard3);
+        page.pushTheButtonInsideItem();
+        page.pushTheButtonBackToProducts();
+        page.pushTheButtonOnItem(headOfCard4);
+        page.pushTheButtonOnItem(headOfCard5);
+        page.pushTheButtonOnItem(headOfCard3);
+        page.openCart();
+        page.checkQuantityItemInCart(headOfCard1);
+        page.checkQuantityItemInCart(headOfCard5);
+        page.checkQuantityItemInCart(headOfCard4);
+        page.checkPriceItemInCart(headOfCard1, priceOfItem1);
+        page.checkPriceItemInCart(headOfCard5, priceOfItem5);
+        page.checkPriceItemInCart(headOfCard4, priceOfItem4);
+        page.removeItemFromCart(headOfCard4);
+        page.checkItemInTheCart(headOfCard1);
+        page.checkItemInTheCart(headOfCard5);
+        page.clickCheckOut();
+        page.fillCheckoutForm();
+        checkoutPage.checkItemInCheckout(headOfCard1);
+        checkoutPage.checkItemInCheckout(headOfCard5);
+        checkoutPage.checkPriceItemInCheckout(headOfCard1, priceOfItem1);
+        checkoutPage.checkPriceItemInCheckout(headOfCard5, priceOfItem5);
+        checkoutPage.checkQuantityItemInCheckout(headOfCard1);
+        checkoutPage.checkQuantityItemInCheckout(headOfCard5);
+        checkoutPage.checkSummaryInformation();
+        checkoutPage.pressFinish();
+        checkoutPage.checkComplete();
+        page.checkInventoryPage();
     }
 }
