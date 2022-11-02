@@ -16,8 +16,11 @@ public class CheckoutPage {
         page.checkQuantityItemInCart(headOfCard);
     }
     public void checkSummaryInformation(){
-        $(By.xpath("//div[@class='summary_value_label'][text()='SauceCard #31337']")).should(exist);
-        $(By.xpath("//div[@class='summary_value_label'][text()='FREE PONY EXPRESS DELIVERY!']")).should(exist);
+
+//        $(By.xpath("//div[@class='summary_value_label'][text()='SauceCard #31337']")).should(exist);
+//        $(By.xpath("//div[@class='summary_value_label'][text()='FREE PONY EXPRESS DELIVERY!']")).should(exist);
+        $$(byClassName("summary_value_label")).filterBy(text("SauceCard #31337"));
+        $$(byClassName("summary_value_label")).filterBy(text("FREE PONY EXPRESS DELIVERY!"));
         $(byClassName("summary_subtotal_label")).shouldHave(text("Item total: $37.98"));
         $(byClassName("summary_tax_label")).shouldHave(text("Tax: $3.04"));
         $(byClassName("summary_total_label")).shouldHave(text("Total: $41.02"));

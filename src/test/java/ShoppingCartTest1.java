@@ -1,4 +1,6 @@
 import com.codeborne.selenide.Configuration;
+import com.codeborne.selenide.logevents.SelenideLogger;
+import io.qameta.allure.selenide.AllureSelenide;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -11,6 +13,8 @@ public class ShoppingCartTest1 {
     @BeforeAll
     static void setup() {
      //          Configuration.holdBrowserOpen = true;
+        //   SelenideLogger.addListener("AllureSelenide", new AllureSelenide());
+     //   Configuration.headless = true;
         Configuration.baseUrl = "https://www.saucedemo.com";
         loginPage.open().login(userLogin, userPass);
     }

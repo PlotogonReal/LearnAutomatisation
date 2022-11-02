@@ -6,7 +6,7 @@ public class SortingTest {
     static InventoryPage page = new InventoryPage();
     static SaucedemoPage loginPage = new SaucedemoPage();
     static String userLogin = "standard_user";
-    static String userPass = "secret_sauce";
+    static String userPass = "secret_sauce1";
 
     @BeforeAll
     static void setup() {
